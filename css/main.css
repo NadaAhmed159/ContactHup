@@ -1,0 +1,442 @@
+:root {
+  /* colors */
+}
+/* *{
+  border:1px solid #1447e6;
+} */
+body {
+  /* font family */
+  font-family: "Inter", sans-serif;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+ul {
+  text-decoration-style: none;
+  padding: 0;
+  margin: 0;
+}
+/*****& navbar *****/
+nav {
+  background-color: oklab(0.999994 0.0000455677 0.0000200868 / 0.7);
+  backdrop-filter: blur(20px);
+}
+.navbar .navbar-brand .logo {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-image: linear-gradient(
+    to right bottom,
+    oklch(0.541 0.281 293.009) 0%,
+    oklch(0.511 0.262 276.966) 100%
+  );
+  border-radius: 0.75rem;
+  box-shadow:
+    0 10px 15px -3px
+      color-mix(
+        in oklab,
+        color-mix(in oklab, oklch(60.6% 0.25 292.717) 25%, transparent) 100%,
+        transparent
+      ),
+    0 4px 6px -4px
+      color-mix(
+        in oklab,
+        color-mix(in oklab, oklch(60.6% 0.25 292.717) 25%, transparent) 100%,
+        transparent
+      );
+}
+.navbar .navbar-brand h1 span {
+  color: #7f22fe;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+.navbar .navbar-brand p {
+  color: #6a7282;
+  font-weight: 500;
+  font-size: 0.75rem;
+}
+.navbar button {
+  background-image: linear-gradient(
+    to right,
+    oklch(0.541 0.281 293.009) 0%,
+    oklch(0.511 0.262 276.966) 100%
+  );
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.navbar .nav-item {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #6a7282;
+}
+
+/*****& End navbar *****/
+
+/*****& Model *****/
+
+/*****& End Model *****/
+
+/*****& stat *****/
+.stats {
+  margin-bottom: 2rem;
+}
+.stats .item {
+  box-shadow:
+    0 1px 3px 0 #0000001a,
+    0 1px 2px -1px #0000001a;
+  border-radius: 1rem;
+  border: 1px solid #f6f3f4;
+}
+.stats span.stat {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+}
+.stats span.stat.total {
+  background-image: linear-gradient(
+    to right bottom,
+    oklch(0.623 0.214 259.815) 0%,
+    oklch(0.546 0.245 262.881) 100%
+  );
+  box-shadow:
+    0 10px 15px -3px
+      color-mix(
+        in oklab,
+        color-mix(in oklab, oklch(62.3% 0.214 259.815) 25%, transparent) 100%,
+        transparent
+      ),
+    0 4px 6px -4px
+      color-mix(
+        in oklab,
+        color-mix(in oklab, oklch(62.3% 0.214 259.815) 25%, transparent) 100%,
+        transparent
+      );
+}
+.stats span.stat.favorites {
+  background-image: linear-gradient(
+    to right bottom,
+    oklch(0.828 0.189 84.429) 0%,
+    oklch(0.705 0.213 47.604) 100%
+  );
+  box-shadow:
+    0 10px 15px -3px
+      color-mix(
+        in oklab,
+        color-mix(in oklab, oklch(76.9% 0.188 70.08) 25%, transparent) 100%,
+        transparent
+      ),
+    0 4px 6px -4px
+      color-mix(
+        in oklab,
+        color-mix(in oklab, oklch(76.9% 0.188 70.08) 25%, transparent) 100%,
+        transparent
+      );
+}
+.stats span.stat.emergency {
+  background-image: linear-gradient(
+    to right bottom,
+    oklch(0.645 0.246 16.439) 0%,
+    oklch(0.577 0.245 27.325) 100%
+  );
+  box-shadow:
+    0 10px 15px -3px
+      color-mix(
+        in oklab,
+        color-mix(in oklab, oklch(64.5% 0.246 16.439) 25%, transparent) 100%,
+        transparent
+      ),
+    0 4px 6px -4px
+      color-mix(
+        in oklab,
+        color-mix(in oklab, oklch(64.5% 0.246 16.439) 25%, transparent) 100%,
+        transparent
+      );
+}
+.stats p {
+  color: #6a7282;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/*****& End stat *****/
+
+/*****& contact *****/
+.contacts .empty p:first-child {
+  color: #6a7282;
+}
+.contacts .empty p:last-child {
+  color: #99a1af;
+}
+.contacts .empty span {
+  background-color: #f3f4f6;
+  color: #d1d5dc;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 1rem;
+}
+.contacts .head h2 {
+  font-size: 1.875rem;
+}
+.contacts .input i {
+  top: 50%;
+  left: 16px;
+  color: oklch(70.7% 0.022 261.325);
+}
+.contacts input {
+  font-size: 0.875rem;
+  padding: 0.875rem 3rem;
+  border: 1px solid oklch(0.928 0.006 264.531);
+  border-radius: 0.75rem;
+  color: #364153;
+}
+.contacts input:focus {
+  border-color: oklch(60.6% 0.25 292.717);
+  box-shadow: oklab(0.606 0.096545 -0.230606 / 0.2) 0px 0px 0px 2px;
+}
+.contacts .contact-head h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+.contacts .contact-head p {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #6a7282;
+}
+.contacts .contact-head span.phone {
+  background-color: #dbeafe;
+  color: #155dfc;
+}
+.contacts span.email {
+  background-color: #ede9fe;
+  color: #7f22fe;
+}
+.contacts span.location {
+  background-color: #d0fae5;
+  color: #009966;
+}
+.contacts span {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0.375rem;
+  padding: 14px;
+}
+.contacts p {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #4a5565;
+}
+.contacts .optional-catigories span {
+  font-size: 0.6875rem;
+  font-weight: 500;
+}
+.contacts .optional-catigories span.family {
+  background-color: #dbeafe;
+  color: #1447e6;
+}
+.contacts .optional-catigories span.friends {
+  background-color: #dbfce7;
+  color: #008236;
+}
+.contacts .optional-catigories span.work {
+  background-color: #f3e8ff;
+  color: #8200db;
+}
+.contacts .optional-catigories span.school {
+  background-color: #f3e8ff;
+  color: #8200db;
+}
+.contacts .optional-catigories span.other {
+  background-color: #f3f4f6;
+  color: #364153;
+}
+.contacts .optional-catigories span.emergency {
+  background-color: #fff1f2;
+  color: #eb0040;
+}
+.contacts .contact-image {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+.contacts .contact-image span {
+  color: #155dfc;
+  background: #000;
+
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+}
+.contacts .footer-icons {
+  padding: 0.625rem 1rem;
+  background-color: #fafbfc;
+  border-top: 1px solid #f6f3f4;
+}
+.contacts .footer-icons button {
+  border-radius: 0.5rem;
+  background-color: transparent;
+  transition: all 0.2s;
+  width: 2.25rem;
+  height: 2.25rem;
+}
+.contacts .footer-icons button.favorite:hover,
+.contacts .footer-icons button.emergency:hover {
+  background-color: #f6f3f4;
+}
+.contacts .footer-icons button.favorite:hover i {
+  color: #ffb900;
+}
+.contacts .footer-icons button.emergency:hover i {
+  color: #ff2056;
+}
+.contacts .footer-icons button.edit:hover i {
+  color: #4f39f6;
+}
+.contacts .footer-icons button.edit:hover {
+  background-color: #eef2ff;
+}
+.contacts .footer-icons button.delete:hover i {
+  color: #ec003f;
+}
+.contacts .footer-icons button.delete:hover {
+  background-color: #fff1f2;
+}
+.contacts .footer-icons .actions i {
+  color: #99a1af;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+.contacts .footer-icons span {
+  width: 2.25rem;
+  height: 2.25rem;
+  transition: all 0.2s;
+}
+.contacts .footer-icons span.phone {
+  color: #009966;
+  background-color: oklch(0.979 0.021 166.113);
+}
+.contacts .footer-icons span.envelope {
+  color: #7f22fe;
+  background-color: #f5f3ff;
+}
+.contacts .footer-icons span.phone:hover {
+  background-color: #d0fae5;
+}
+.contacts .footer-icons span.envelope:hover {
+  background-color: #ede9fe;
+  color: #ffb900;
+}
+.contacts .box {
+  position: sticky;
+  top: 7rem;
+  z-index: 10;
+}
+.contacts .box > div {
+  box-shadow:
+    0 1px 3px 0 #0000001a,
+    0 1px 2px -1px #0000001a;
+  border: 0.0625rem solid #f6f3f4;
+  border-radius: 1rem;
+  min-height: 300px;
+}
+
+.contacts .box .head {
+  padding: 1rem 1.25rem;
+}
+.contacts .box .favorites .head {
+  background-color: #fff8ec;
+}
+.contacts .box .emergncy .head {
+  background-color: #fef2f2;
+}
+.contacts .box .head span {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.5rem;
+}
+.contacts .box .favorites .head span {
+  background-image: linear-gradient(
+    to right bottom,
+    oklch(0.828 0.189 84.429) 0%,
+    oklch(0.705 0.213 47.604) 100%
+  );
+}
+.contacts .box .emergncy .head span {
+  background-image: linear-gradient(
+    to right bottom,
+    oklch(0.645 0.246 16.439) 0%,
+    oklch(0.577 0.245 27.325) 100%
+  );
+}
+.contacts .box .head span i {
+  font-size: 14px;
+}
+.contacts .box .head h2 {
+  font-weight: 600;
+}
+.contacts .box .head p {
+  font-size: 0.6875rem;
+  color: #6a7282;
+}
+.contacts .box .items .empty p {
+  color: #99a1af;
+}
+.contacts .box .items {
+  padding: 0.75rem;
+}
+.contacts .box .items .contact {
+  padding: 10px;
+  background-color: #fbf9fa;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.contacts .box .favorites .items .contact:hover {
+  background-color: #fffbeb;
+}
+
+.contacts .box .emergncy .items .contact:hover {
+  background-color: #fff1f2;
+}
+
+.contacts .box .items .contact h4 {
+  font-size: 0.875rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.contacts .box .items .contact .me-auto {
+  min-width: 0;
+}
+.contacts .box .items .contact p {
+  font-size: 0.75rem;
+  color: #6a7282;
+}
+.contacts .box .items .contact span.phone {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s;
+}
+.contacts .box .emergncy .items .contact span.phone {
+  color: #ec003f;
+  background-color: #ffe4e6;
+}
+.contacts .box .emergncy .items .contact:hover span.phone {
+  color: #fff;
+  background-color: #ec003f;
+}
+
+.contacts .box .favorites .items .contact span.phone {
+  background-color: #d0fae5;
+  color: #009966;
+}
+.contacts .box .favorites .items .contact:hover span.phone {
+  background-color: #009966;
+  color: #fff;
+}
+
+.contacts .box .items .contact span.phone i {
+  font-size: 14px;
+}
+
+/*****& End contact *****/
