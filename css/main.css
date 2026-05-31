@@ -75,6 +75,10 @@ nav {
 
 /*****& Model *****/
 
+.error-msg {
+  font-size: 0.75rem;
+  color: #ff2056;
+}
 /*****& End Model *****/
 
 /*****& stat *****/
@@ -285,6 +289,17 @@ nav {
 .contacts .footer-icons button.favorite:hover i {
   color: #ffb900;
 }
+
+.contacts .footer-icons button.favorite i.fa-solid.fa-star {
+  color: #ffb900;
+}
+.contacts .footer-icons button.favorite:hover  {
+  background-color: #fef3c6;
+}
+/* .contacts .footer-icons button.favorite.btn  {
+  background-color: oklch(0.987 0.022 95.277);
+} */
+
 .contacts .footer-icons button.emergency:hover i {
   color: #ff2056;
 }

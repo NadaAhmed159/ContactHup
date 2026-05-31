@@ -31,10 +31,8 @@
             <p class="m-0">Smart Contact Manager</p>
           </div>
         </div>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-2">
-            <button
-              class="text-white border-0 px-3 py-2"
+        <button
+              class="text-white ms-auto border-0 px-3 py-2"
               data-bs-toggle="modal"
               data-bs-target="#staticBackdrop"
             >
@@ -43,6 +41,9 @@
               </span>
               Add Contact
             </button>
+        <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+          <ul class="navbar-nav  mb-2 mb-lg-0 gap-2">
+            
             <li
               class="nav-item d-flex justify-content-center align-items-center"
             >
@@ -91,6 +92,7 @@
               class="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
+              onclick="resetInputs()"
             ></button>
           </div>
           <div class="modal-body p-4">
@@ -105,11 +107,16 @@
                   </label>
                   <div>
                     <input
+                      oninput="validInputes(regex.name, this)"
                       type="text"
                       class="form-control"
                       placeholder="Enter Full name"
                       id="fullName"
                     />
+                    <p class="text-danger error-msg d-none mt-2">
+                      Name should contain only letters and spaces (2-50
+                      characters)
+                    </p>
                   </div>
                 </div>
                 <div class="mb-3">
@@ -118,11 +125,15 @@
                   </label>
                   <div>
                     <input
+                      oninput="validInputes(regex.phone, this)"
                       type="tel"
                       placeholder="e.g., 01020917104"
                       class="form-control"
                       id="phoneNumber"
                     />
+                    <p class="text-danger error-msg d-none mt-2">
+                      Please enter a valid Egyptian phone number
+                    </p>
                   </div>
                 </div>
                 <div class="mb-3">
@@ -131,11 +142,15 @@
                   >
                   <div>
                     <input
+                      oninput="validInputes(regex.email, this)"
                       type="email"
                       placeholder="name@example.com"
                       class="form-control"
                       id="emailAddress"
                     />
+                    <p class="text-danger error-msg d-none mt-2">
+                      Please enter a valid email address
+                    </p>
                   </div>
                 </div>
                 <div class="mb-3">
@@ -199,13 +214,17 @@
                   </div>
                 </div>
               </form>
-              <button class="btn btn-primary" data-bs-dismiss="modal">
+              <button
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+                onclick="resetInputs()"
+              >
                 Cancel
               </button>
               <button
+                id="addbtn"
                 class="btn btn-primary"
-                onclick="addContact()"
-                data-bs-dismiss="modal"
+                onclick="saveContact()"
               >
                 Save Contact
               </button>
@@ -219,7 +238,7 @@
     <section class="stats pt-5 mt-5">
       <div class="container pt-4 pb-3">
         <div class="row g-4">
-          <div class="col-4">
+          <div class="col-6 col-md-4">
             <div class="item d-flex align-items-center bg-white p-3 gap-3">
               <span
                 class="stat total text-white d-flex align-items-center justify-content-center"
@@ -231,7 +250,7 @@
               </div>
             </div>
           </div>
-          <div class="col-4">
+          <div class="col-6 col-md-4">
             <div class="item d-flex align-items-center bg-white p-3 gap-3">
               <span
                 class="stat favorites text-white d-flex align-items-center justify-content-center"
@@ -243,7 +262,7 @@
               </div>
             </div>
           </div>
-          <div class="col-4">
+          <div class="col-6 col-md-4">
             <div class="item d-flex align-items-center bg-white p-3 gap-3">
               <span
                 class="stat emergency text-white d-flex align-items-center justify-content-center"
@@ -259,14 +278,16 @@
       </div>
     </section>
 
-    <section class="contacts  pb-5">
+    <section class="contacts pb-5">
       <div class="container">
-        <div class="row align-items-start">
-          <div class="col-8">
+        <div class="row align-items-start g-4">
+          <div class="col-xl-8">
             <div class="head">
               <h2 class="fw-bold">All Contacts</h2>
-              <p>Manage and organize your  <span id="counts"class="p-0"></span>
-                  contacts</p>
+              <p>
+                Manage and organize your
+                <span id="counts" class="p-0"></span> contacts
+              </p>
             </div>
             <div class="input mb-3 position-relative">
               <i
@@ -283,7 +304,7 @@
 
             <div class="row g-4" id="contacts"></div>
           </div>
-          <div class="box col-4 position-sticky">
+          <div class="box col-xl-4 position-sticky">
             <div class="favorites bg-white mb-4 d-flex flex-column">
               <div class="head d-flex align-items-center gap-2">
                 <span

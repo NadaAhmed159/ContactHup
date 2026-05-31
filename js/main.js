@@ -1,3 +1,4 @@
+//                         Modal Inputs
 var contactImageInput = document.getElementById("contactImage");
 var fullNameInput = document.getElementById("fullName");
 var phoneNumberInput = document.getElementById("phoneNumber");
@@ -9,17 +10,34 @@ var favoriteInput = document.getElementById("favorite");
 var emergencyInput = document.getElementById("emergency");
 var searchInput = document.getElementById("search");
 
+//                         Counts elements
+
 var CountPElement = document.getElementById("counts");
 var totalCountElement = document.getElementById("totalCount");
 var favoritesCountElement = document.getElementById("favoritesCount");
 var emergencyCountElement = document.getElementById("emergencyCount");
 
+//                         Sections
 var favoritesContacts = document.getElementById("favoritesContacts");
 var emergenciesContacts = document.getElementById("emergenciesContacts");
 
+var addbtn = document.getElementById("addbttn");
+
+//                         Global Arrays
 var contacts = JSON.parse(localStorage.getItem("contacts")) || [];
 var emergencies = JSON.parse(localStorage.getItem("emergencies")) || [];
 var favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+var currentEditIndex = null;
+var isUpdate = false;
+
+var errTitle;
+var errMsg;
+var regex = {
+  name: /^[a-zA-Z\s]{2,50}$/,
+  phone: /^01[0125][0-9]{8}$/,
+  email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+};
 
 displayContacts(contacts);
 displayStats();
@@ -40,7 +58,7 @@ function displayEmergency() {
     emergenciesContacts.innerHTML = `<div
                   class="empty position-absolute top-50 start-50 translate-middle "
                 >
-                  <p class="text-center">No emergncy contacts</p>
+                  <p class="text-center">No emergency contacts</p>
                 </div>`;
     return;
   }
@@ -75,7 +93,6 @@ function displayEmergency() {
 
   emergenciesContacts.innerHTML = cartona;
 }
-
 function displayFavorities() {
   if (!favorites.length) {
     favoritesContacts.innerHTML = `<div
@@ -115,7 +132,6 @@ function displayFavorities() {
 
   favoritesContacts.innerHTML = cartona;
 }
-
 function displayContacts(list) {
   if (!list.length) {
     document.getElementById("contacts").innerHTML = `
@@ -132,7 +148,7 @@ function displayContacts(list) {
   var cartona = ``;
   for (var i = 0; i < list.length; i++) {
     cartona += `
-              <div class="col-6">
+              <div class="col-12 col-sm-6">
                 <div
                   class="bg-white rounded-3 shadow-lg d-flex flex-column gap-2 h-100"
                 >
@@ -195,8 +211,7 @@ function displayContacts(list) {
                       ${(() => {
                         switch (list[i].group) {
                           case "family":
-                            return;
-                            `<span class="px-2 py-1 family">${list[i].group}</span>`;
+                            return `<span class="px-2 py-1 family">${list[i].group}</span>`;
                           case "friends":
                             return `<span class="px-2 py-1 friends"
                         >${list[i].group}</span
@@ -247,23 +262,24 @@ function displayContacts(list) {
                     </button>
 
                     <div class="actions ms-auto ">
-                      <button id="footerFavoriteBtn" class="favorite border border-0" 
+                      <button  class="favorite border border-0" 
                       onclick="${
                         list[i].favorite
-                          ? `removeFavorite(${i}) `
-                          : `addFavorite(${i})`
+                          ? `removeFavorite(${list.length<contacts.length?list[i].mainIndex:i}) `
+                          : `addFavorite(${list.length<contacts.length?list[i].mainIndex:i})`
                       }"
                       
                       ">
-                        <i class="far fa-star"></i>
+                        <i class="${list[i].favorite ? "fa-solid" : "fa-regular"} fa-star"></i>
                       </button>
-                      <button id="footerEmergencyBtn" class="emergency border border-0"  onclick="${
+                      <button  class="emergency border border-0"  onclick="${
                         list[i].emergency
-                          ? `removeEmergency(${i})`
-                          : `addEmergency(${i})`
-                      }""><i class="far fa-heart"></i></button>
-                      <button id="footerEditBtn" class="edit border border-0"   onclick="uploadData(${i})"><i class="fas fa-pen"></i></button>
-                      <button id="footerDeleteBtn" class="delete border border-0"   onclick="deleteContact(${i})"><i class="fa-solid fa-trash"></i></button>
+                          ? `removeEmergency(${list.length<contacts.length?list[i].mainIndex:i})`
+                          : `addEmergency(${list.length<contacts.length?list[i].mainIndex:i})`
+                      }""><i class="${list[i].emergency ? "fa-solid" : "fa-regular"} fa-${list[i].emergency ? "heart-pulse" : "heart"}"></i></button>
+                      <button id="footerEditBtn" class="edit border border-0" data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"   onclick="uploadData(${list.length<contacts.length?list[i].mainIndex:i})"><i class="fas fa-pen"></i></button>
+                      <button id="footerDeleteBtn" class="delete border border-0"   onclick="deleteContact(${list.length<contacts.length?list[i].mainIndex:i})"><i class="fa-solid fa-trash"></i></button>
                     </div>
                   </div>
                 </div>
@@ -272,8 +288,33 @@ function displayContacts(list) {
     `;
   }
   document.getElementById("contacts").innerHTML = cartona;
+  var favoriteBtns = document.querySelectorAll("button.favorite");
+  var emergencyBtns = document.querySelectorAll("button.emergency");
+  for (var index = 0; index < favoriteBtns.length; index++) {
+    favoriteBtns[index].addEventListener("click", function (e) {
+      const icon = e.currentTarget.firstElementChild;
+      if (icon.classList.contains("fa-regular")) {
+        icon.classList.remove("fa-regular");
+        icon.classList.add("fa-solid");
+      } else {
+        icon.classList.remove("fa-solid");
+        icon.classList.add("fa-regular");
+      }
+    });
+  }
+  for (var index = 0; index < emergencyBtns.length; index++) {
+    emergencyBtns[index].addEventListener("click", function (e) {
+      const icon = e.currentTarget.firstElementChild;
+      if (icon.classList.contains("fa-heart")) {
+        icon.classList.remove("fa-heart");
+        icon.classList.add("fa-heart-pulse");
+      } else {
+        icon.classList.remove("fa-heart-pulse", "fa-regular");
+        icon.classList.add("fa-heart", "fa-solid");
+      }
+    });
+  }
 }
-
 function addEmergency(index) {
   contacts[index].emergencyIndex = emergencies.length;
   contacts[index].emergency = true;
@@ -323,46 +364,68 @@ function removeFavorite(index) {
   displayFavorities();
 }
 function addContact() {
-  Swal.fire({
-    title: "Added!",
-    icon: "success",
-    text: "Contact has been added successfully.",
-    draggable: true,
-    timer: 2000,
-  });
+  if (
+    validInputes(regex.name, fullNameInput) &&
+    validInputes(regex.phone, phoneNumberInput) &&
+    validNumberDuplicate(phoneNumberInput.value) &&
+    (emailAddressInput.value
+      ? validInputes(regex.email, emailAddressInput)
+      : true)
+  ) {
+    Swal.fire({
+      title: "Added!",
+      icon: "success",
+      text: "Contact has been added successfully.",
+      draggable: true,
+      timer: 2000,
+    });
 
-  var contact = {
-    contactImage:
-      contactImageInput.files.length > 0 ? contactImageInput.files[0].name : "",
-    fullName: fullNameInput.value,
-    phoneNumber: phoneNumberInput.value,
-    emailAddress: emailAddressInput.value,
-    address: addressInput.value,
-    group: groupInput.value,
-    notes: notesInput.value,
-    favorite: favoriteInput.checked,
-    emergency: emergencyInput.checked,
-  };
-  if (contact.favorite) {
-    contact.favoriteIndex = favorites.length;
-    favorites.push(contact);
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }
-  if (contact.emergency) {
-    contact.emergencyIndex = emergencies.length;
-    emergencies.push(contact);
-    localStorage.setItem("emergencies", JSON.stringify(emergencies));
-  }
-  contact.mainIndex = contacts.length;
-  contacts.push(contact);
-  localStorage.setItem("contacts", JSON.stringify(contacts));
+    var contact = {
+      contactImage:
+        contactImageInput.files.length > 0
+          ? contactImageInput.files[0].name
+          : "",
+      fullName: fullNameInput.value,
+      phoneNumber: phoneNumberInput.value,
+      emailAddress: emailAddressInput.value,
+      address: addressInput.value,
+      group: groupInput.value,
+      notes: notesInput.value,
+      favorite: favoriteInput.checked,
+      emergency: emergencyInput.checked,
+    };
+    if (contact.favorite) {
+      contact.favoriteIndex = favorites.length;
+      favorites.push(contact);
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+    }
+    if (contact.emergency) {
+      contact.emergencyIndex = emergencies.length;
+      emergencies.push(contact);
+      localStorage.setItem("emergencies", JSON.stringify(emergencies));
+    }
+    contacts.push(contact);
+    localStorage.setItem("contacts", JSON.stringify(contacts));
 
-  displayContacts(contacts);
-  displayStats();
-  displayEmergency();
-  displayFavorities();
-  CountPElement.innerHTML = contacts.length;
-  resetInputs();
+    displayContacts(contacts);
+    displayStats();
+    displayEmergency();
+    displayFavorities();
+    CountPElement.innerHTML = contacts.length;
+    resetInputs();
+    var modal = bootstrap.Modal.getInstance(
+      document.getElementById("staticBackdrop"),
+    );
+
+    modal.hide();
+  } else {
+    writeErrorPopUp();
+    Swal.fire({
+      icon: "error",
+      title: errTitle,
+      text: errMsg,
+    });
+  }
 }
 function deleteContact(index) {
   Swal.fire({
@@ -402,31 +465,66 @@ function deleteContact(index) {
   });
 }
 function updateContact(index) {
-  Swal.fire({
-    title: "Updated!",
-    icon: "success",
-    text: "Contact has been updated successfully.",
-    draggable: true,
-    timer: 2000,
-  });
+  if (
+    validInputes(regex.name, fullNameInput) &&
+    validInputes(regex.phone, phoneNumberInput) &&
+    validNumberDuplicate(phoneNumberInput.value) &&
+    (emailAddressInput.value
+      ? validInputes(regex.email, emailAddressInput)
+      : true)
+  ) {
+    Swal.fire({
+      title: "Updated!",
+      icon: "success",
+      text: "Contact has been updated successfully.",
+      draggable: true,
+      timer: 2000,
+    });
+    var modal = bootstrap.Modal.getInstance(
+      document.getElementById("staticBackdrop"),
+    );
 
-  var contact = {
-    fullName: fullNameInput.value,
-    phoneNumber: phoneNumberInput.value,
-    emailAddress: emailAddressInput.value,
-    address: addressInput.value,
-    group: groupInput.value,
-    notes: notesInput.value,
-    favorite: favoriteInput.checked,
-    emergency: emergencyInput.checked,
-  };
-  contacts.splice(index, 1, contact);
-  localStorage.setItem("contacts", JSON.stringify(contacts));
-  displayContacts(contacts);
+    modal.hide();
+
+    var contact = {
+      contactImage:
+        contactImageInput.files.length > 0
+          ? contactImageInput.files[0].name
+          : contacts[index].contactImage,
+      fullName: fullNameInput.value,
+      phoneNumber: phoneNumberInput.value,
+      emailAddress: emailAddressInput.value,
+      address: addressInput.value,
+      group: groupInput.value,
+      notes: notesInput.value,
+      favorite: favoriteInput.checked,
+      emergency: emergencyInput.checked,
+    };
+
+    contacts.splice(index, 1, contact);
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+    displayContacts(contacts);
+      resetInputs();
+
+  } else {
+    writeErrorPopUp();
+    Swal.fire({
+      icon: "error",
+      title: errTitle,
+      text: errMsg,
+    });
+  }
 }
-
+function saveContact() {
+  if (isUpdate) {
+    updateContact(currentEditIndex);
+  } else {
+    addContact();
+  }
+}
 function uploadData(index) {
-  //    contactImageInput.value =
+  isUpdate = true;
+  currentEditIndex = index;
   fullNameInput.value = contacts[index].fullName;
   phoneNumberInput.value = contacts[index].phoneNumber;
   emailAddressInput.value = contacts[index].emailAddress;
@@ -435,9 +533,8 @@ function uploadData(index) {
   notesInput.value = contacts[index].notes;
   favoriteInput.checked = contacts[index].favorite;
   emergencyInput.checked = contacts[index].emergency;
-  document.getElementById("contacts").innerHTML =
-    `<button onclick="updateContact(${index})">updateeeee</button>
-`;
+  document.getElementById("staticBackdropLabel").innerHTML = "Update Contact";
+  document.getElementById("addbtn").innerHTML = "Update Contact";
 }
 function searchContacts(searchInput) {
   var token = searchInput.value;
@@ -449,12 +546,12 @@ function searchContacts(searchInput) {
       contacts[i].phoneNumber.toLowerCase().includes(token.toLowerCase()) ||
       contacts[i].emailAddress.toLowerCase().includes(token.toLowerCase())
     ) {
+      contacts[i].mainIndex=i;
       filteredContacts.push(contacts[i]);
     }
   }
   displayContacts(filteredContacts);
 }
-
 function resetInputs() {
   ((contactImageInput.value = ""), (fullNameInput.value = ""));
   phoneNumberInput.value = "";
@@ -464,11 +561,81 @@ function resetInputs() {
   notesInput.value = "";
   favoriteInput.checked = false;
   emergencyInput.checked = false;
+  fullNameInput.classList.remove("is-invalid", "is-valid");
+  phoneNumberInput.classList.remove("is-invalid", "is-valid");
+  emailAddressInput.classList.remove("is-invalid", "is-valid");
+  fullNameInput.nextElementSibling.classList.replace("d-block", "d-none");
+  phoneNumberInput.nextElementSibling.classList.replace("d-block", "d-none");
+  emailAddressInput.nextElementSibling.classList.replace("d-block", "d-none");
+  isUpdate = false;
+  currentEditIndex = null;
+  document.getElementById("staticBackdropLabel").innerHTML = "Add New Contact";
+  document.getElementById("addbtn").innerHTML = "Save Contact";
 }
-
 function extractName(fullName) {
   var words = fullName.trim().split(" ");
   var firstLetter = words[0].charAt(0).toUpperCase();
-  var lastLetter = words[words.length - 1].charAt(0).toUpperCase();
-  return firstLetter + lastLetter;
+  if (words.length > 1) {
+    var lastLetter = words[words.length - 1].charAt(0).toUpperCase();
+    return firstLetter + lastLetter;
+  }
+  return firstLetter;
+}
+function validInputes(regex, input) {
+  if (regex.test(input.value)) {
+    input.classList.add("is-valid");
+    input.classList.remove("is-invalid");
+    input.nextElementSibling.classList.replace("d-block", "d-none");
+    return true;
+  } else {
+    input.classList.add("is-invalid");
+    input.classList.remove("is-valid");
+    input.nextElementSibling.classList.replace("d-none", "d-block");
+    return false;
+  }
+}
+function validNumberDuplicate(number) {
+  if (currentEditIndex !== null && number==contacts[currentEditIndex].phoneNumber) {
+    return true;
+  }
+  for (var i = 0; i < contacts.length; i++) {
+    if (contacts[i].phoneNumber == number) {
+      return false;
+    }
+  }
+  return true;
+}
+function writeErrorPopUp() {
+  switch (false) {
+    case validInputes(regex.name, fullNameInput):
+      if (fullNameInput.value === "") {
+        errTitle = "Missing Name";
+        errMsg = "Please enter a name for the contact!";
+      } else {
+        errTitle = "Invalid Name";
+        errMsg =
+          "Name should contain only letters and spaces (2-50 characters)";
+      }
+      break;
+    case validInputes(regex.phone, phoneNumberInput):
+      if (phoneNumberInput.value === "") {
+        errTitle = "Missing phone";
+        errMsg = "Please enter a phone number for the contact!";
+      } else {
+        errTitle = "Invalid phone";
+        errMsg =
+          "Please enter a valid Egyptian phone number (e.g., 01012345678 or +201012345678)";
+      }
+      break;
+    case validNumberDuplicate(phoneNumberInput.value):
+      errTitle = "Duplicate Phone Number";
+      errMsg = "A contact with this phone number already exists: nada ahmed";
+      break;
+    case validInputes(regex.email, emailAddressInput):
+      errTitle = "Invalid Email";
+      errMsg = "Please enter a valid email address";
+      break;
+    default:
+      break;
+  }
 }
