@@ -261,14 +261,42 @@ nav {
 .contacts .contact-image {
   width: 3.5rem;
   height: 3.5rem;
+  position: relative;
 }
 .contacts .contact-image span {
   color: #155dfc;
   background: #000;
-
-  /* display: flex;
+  width: 100%;
+  height: 100%;
+  display: flex;
   align-items: center;
-  justify-content: center; */
+  justify-content: center;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  font-size: 1rem;
+}
+.contact-badge {
+  position: absolute;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  border: 2px solid white;
+}
+.contact-badge.favorite {
+  background-color: #ffb900;
+  color: white;
+  top: -5px;
+  right: -5px;
+}
+.contact-badge.emergency {
+  background-color: #ff2056;
+  color: white;
+  bottom: -5px;
+  right: -5px;
 }
 .contacts .footer-icons {
   padding: 0.625rem 1rem;
@@ -293,15 +321,20 @@ nav {
 .contacts .footer-icons button.favorite i.fa-solid.fa-star {
   color: #ffb900;
 }
-.contacts .footer-icons button.favorite:hover  {
+.contacts .footer-icons button.favorite:hover {
   background-color: #fef3c6;
 }
 /* .contacts .footer-icons button.favorite.btn  {
   background-color: oklch(0.987 0.022 95.277);
 } */
 
-.contacts .footer-icons button.emergency:hover i {
+.contacts .footer-icons button.emergency i.fa-solid.fa-heart-pulse,
+.contacts .footer-icons button.emergency:hover i.fa-regular.fa-heart ,
+.contacts .footer-icons button.emergency:hover i.fa-solid.fa-heart-pulse {
   color: #ff2056;
+}
+.contacts .footer-icons button.emergency:hover i.fa-heart {
+  color: #99a1af;
 }
 .contacts .footer-icons button.edit:hover i {
   color: #4f39f6;

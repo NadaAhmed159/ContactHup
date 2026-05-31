@@ -1,5 +1,8 @@
 //                         Modal Inputs
 var contactImageInput = document.getElementById("contactImage");
+var avatarPreview = document.getElementById("avatarPreview");
+var avatarImage = document.getElementById("avatarImage");
+var avatarIcon = document.getElementById("avatarIcon");
 var fullNameInput = document.getElementById("fullName");
 var phoneNumberInput = document.getElementById("phoneNumber");
 var emailAddressInput = document.getElementById("emailAddress");
@@ -9,6 +12,19 @@ var notesInput = document.getElementById("notes");
 var favoriteInput = document.getElementById("favorite");
 var emergencyInput = document.getElementById("emergency");
 var searchInput = document.getElementById("search");
+
+contactImageInput.addEventListener("change", function (e) {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      avatarImage.src = event.target.result;
+      avatarImage.style.display = "block";
+      avatarIcon.style.display = "none";
+    };
+    reader.readAsDataURL(file);
+  }
+});
 
 //                         Counts elements
 
@@ -167,6 +183,8 @@ function displayContacts(list) {
                             : `<span>${extractName(list[i].fullName)}</span>
                         `
                         }
+                        ${list[i].favorite ? `<div class="contact-badge favorite"><i class="fas fa-star"></i></div>` : ``}
+                        ${list[i].emergency ? `<div class="contact-badge emergency"><i class="fas fa-heart-pulse"></i></div>` : ``}
                       </div>
                       <div>
                         <h3 class="mt-0">${list[i].fullName}</h3>
@@ -265,8 +283,8 @@ function displayContacts(list) {
                       <button  class="favorite border border-0" 
                       onclick="${
                         list[i].favorite
-                          ? `removeFavorite(${list.length<contacts.length?list[i].mainIndex:i}) `
-                          : `addFavorite(${list.length<contacts.length?list[i].mainIndex:i})`
+                          ? `removeFavorite(${list.length < contacts.length ? list[i].mainIndex : i}) `
+                          : `addFavorite(${list.length < contacts.length ? list[i].mainIndex : i})`
                       }"
                       
                       ">
@@ -274,12 +292,12 @@ function displayContacts(list) {
                       </button>
                       <button  class="emergency border border-0"  onclick="${
                         list[i].emergency
-                          ? `removeEmergency(${list.length<contacts.length?list[i].mainIndex:i})`
-                          : `addEmergency(${list.length<contacts.length?list[i].mainIndex:i})`
+                          ? `removeEmergency(${list.length < contacts.length ? list[i].mainIndex : i})`
+                          : `addEmergency(${list.length < contacts.length ? list[i].mainIndex : i})`
                       }""><i class="${list[i].emergency ? "fa-solid" : "fa-regular"} fa-${list[i].emergency ? "heart-pulse" : "heart"}"></i></button>
                       <button id="footerEditBtn" class="edit border border-0" data-bs-toggle="modal"
-              data-bs-target="#staticBackdrop"   onclick="uploadData(${list.length<contacts.length?list[i].mainIndex:i})"><i class="fas fa-pen"></i></button>
-                      <button id="footerDeleteBtn" class="delete border border-0"   onclick="deleteContact(${list.length<contacts.length?list[i].mainIndex:i})"><i class="fa-solid fa-trash"></i></button>
+              data-bs-target="#staticBackdrop"   onclick="uploadData(${list.length < contacts.length ? list[i].mainIndex : i})"><i class="fas fa-pen"></i></button>
+                      <button id="footerDeleteBtn" class="delete border border-0"   onclick="deleteContact(${list.length < contacts.length ? list[i].mainIndex : i})"><i class="fa-solid fa-trash"></i></button>
                     </div>
                   </div>
                 </div>
@@ -504,8 +522,7 @@ function updateContact(index) {
     contacts.splice(index, 1, contact);
     localStorage.setItem("contacts", JSON.stringify(contacts));
     displayContacts(contacts);
-      resetInputs();
-
+    resetInputs();
   } else {
     writeErrorPopUp();
     Swal.fire({
@@ -533,6 +550,16 @@ function uploadData(index) {
   notesInput.value = contacts[index].notes;
   favoriteInput.checked = contacts[index].favorite;
   emergencyInput.checked = contacts[index].emergency;
+
+  if (contacts[index].contactImage) {
+    avatarImage.src = "./images/" + contacts[index].contactImage;
+    avatarImage.style.display = "block";
+    avatarIcon.style.display = "none";
+  } else {
+    avatarImage.style.display = "none";
+    avatarIcon.style.display = "block";
+  }
+
   document.getElementById("staticBackdropLabel").innerHTML = "Update Contact";
   document.getElementById("addbtn").innerHTML = "Update Contact";
 }
@@ -546,7 +573,7 @@ function searchContacts(searchInput) {
       contacts[i].phoneNumber.toLowerCase().includes(token.toLowerCase()) ||
       contacts[i].emailAddress.toLowerCase().includes(token.toLowerCase())
     ) {
-      contacts[i].mainIndex=i;
+      contacts[i].mainIndex = i;
       filteredContacts.push(contacts[i]);
     }
   }
@@ -567,6 +594,11 @@ function resetInputs() {
   fullNameInput.nextElementSibling.classList.replace("d-block", "d-none");
   phoneNumberInput.nextElementSibling.classList.replace("d-block", "d-none");
   emailAddressInput.nextElementSibling.classList.replace("d-block", "d-none");
+
+  avatarImage.src = "";
+  avatarImage.style.display = "none";
+  avatarIcon.style.display = "block";
+
   isUpdate = false;
   currentEditIndex = null;
   document.getElementById("staticBackdropLabel").innerHTML = "Add New Contact";
@@ -595,7 +627,10 @@ function validInputes(regex, input) {
   }
 }
 function validNumberDuplicate(number) {
-  if (currentEditIndex !== null && number==contacts[currentEditIndex].phoneNumber) {
+  if (
+    currentEditIndex !== null &&
+    number == contacts[currentEditIndex].phoneNumber
+  ) {
     return true;
   }
   for (var i = 0; i < contacts.length; i++) {

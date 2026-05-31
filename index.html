@@ -32,18 +32,20 @@
           </div>
         </div>
         <button
-              class="text-white ms-auto border-0 px-3 py-2"
-              data-bs-toggle="modal"
-              data-bs-target="#staticBackdrop"
-            >
-              <span>
-                <i class="fa-solid fa-plus"></i>
-              </span>
-              Add Contact
-            </button>
-        <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
-          <ul class="navbar-nav  mb-2 mb-lg-0 gap-2">
-            
+          class="text-white ms-auto border-0 px-3 py-2"
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"
+        >
+          <span>
+            <i class="fa-solid fa-plus"></i>
+          </span>
+          Add Contact
+        </button>
+        <div
+          class="collapse navbar-collapse flex-grow-0"
+          id="navbarSupportedContent"
+        >
+          <ul class="navbar-nav mb-2 mb-lg-0 gap-2">
             <li
               class="nav-item d-flex justify-content-center align-items-center"
             >
@@ -97,9 +99,39 @@
           </div>
           <div class="modal-body p-4">
             <div class="contact-form">
+              <div class="text-center mb-4">
+                <div class="d-flex justify-content-center mb-3">
+                  <div
+                    id="avatarPreview"
+                    class="rounded-circle bg-primary d-flex align-items-center justify-content-center"
+                    style="width: 120px; height: 120px; cursor: pointer"
+                  >
+                    <i id="avatarIcon" class="fas fa-user fa-3x text-white"></i>
+                    <img
+                      id="avatarImage"
+                      src=""
+                      alt="Contact"
+                      class="w-100 h-100 rounded-circle"
+                      style="display: none; object-fit: cover"
+                    />
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  class="btn btn-light btn-sm"
+                  onclick="document.getElementById('contactImage').click()"
+                >
+                  <i class="fas fa-camera me-2"></i>Change Photo
+                </button>
+              </div>
               <form>
-                <div class="mb-3">
-                  <input class="form-control" type="file" id="contactImage" />
+                <div class="mb-3" style="display: none">
+                  <input
+                    class="form-control"
+                    type="file"
+                    id="contactImage"
+                    accept="image/*"
+                  />
                 </div>
                 <div class="mb-3">
                   <label for="fullName" class="col-form-label"
