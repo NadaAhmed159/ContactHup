@@ -120,7 +120,7 @@ function displayFavorities() {
   }
   var cartona = ``;
   for (var i = 0; i < favorites.length; i++) {
-    cartona += `<div class="contact d-flex gap-2  mb-3">
+    cartona += `<div class="contact d-flex gap-2  mb-3 align-items-center">
                  <div class="contact-image">
                         ${
                           favorites[i].contactImage
@@ -170,7 +170,7 @@ function displayContacts(list) {
                 >
                   <div class="p-3">
                     <div
-                      class="contact-head mt-1 d-flex align-items-center gap-3"
+                      class="contact-head my-2 d-flex align-items-center gap-3"
                     >
                       <div class="contact-image">
                         ${
@@ -201,7 +201,7 @@ function displayContacts(list) {
                     ${(() => {
                       return list[i].emailAddress
                         ? `
-                    <div class="d-flex align-items-center gap-2 mb-2">
+                    <div class="d-flex align-items-center gap-2 my-2">
                       <span
                         class="email d-flex align-items-center justify-content-center"
                       >
@@ -214,7 +214,7 @@ function displayContacts(list) {
                     })()} ${(() => {
                       return list[i].address
                         ? `
-                    <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-2 my-2">
                       <span
                         class="location d-flex align-items-center justify-content-center"
                       >
